@@ -110,9 +110,10 @@ main {
 }
 
 .nav-link:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(0, 0, 0, 0.04);
   transform: translateY(-1px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  color: #000;
 }
 
 .nav-link.active {
@@ -244,11 +245,15 @@ section:last-of-type {
 }
 
 .hero-name {
-  font-size: clamp(36px, 5vw, 46px);
+  font-size: clamp(36px, 5vw, 52px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.05;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-role {
@@ -575,8 +580,9 @@ section:last-of-type {
 }
 
 .project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.12);
 }
 
 .project-title-row {
@@ -684,63 +690,8 @@ section:last-of-type {
 }
 
 .contact-info-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 16px;
-  margin-bottom: 10px;
-  background: linear-gradient(145deg, #f8f9fa, #ffffff);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: transform var(--transition-fast),
-              box-shadow var(--transition-fast),
-              background var(--transition-fast);
-}
-
-.contact-info-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  background: linear-gradient(145deg, #ffffff, #f8f9fa);
-}
-
-.contact-icon {
-  font-size: 24px;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.contact-details {
-  flex: 1;
-  min-width: 0;
-}
-
-.contact-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #666;
-  margin-bottom: 4px;
-}
-
-.contact-info-item a {
   font-size: 13px;
-  color: #000;
-  text-decoration: none;
-  word-break: break-word;
-  transition: color var(--transition-fast);
-}
-
-.contact-info-item a:hover {
-  color: #667eea;
-  text-decoration: underline;
+  margin-bottom: 8px;
 }
 
 .contact-form {
@@ -835,18 +786,75 @@ section:last-of-type {
 footer {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 16px clamp(16px, 5vw, 32px) 32px;
+  padding: 32px clamp(16px, 5vw, 32px) 40px;
   font-size: 11px;
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
   border-top: 1px solid var(--border-subtle);
 }
 
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.footer-tagline {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.social-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.social-link svg {
+  transition: transform var(--transition-fast);
+}
+
+.social-link:hover svg {
+  transform: scale(1.1);
+}
+
 @media (max-width: 600px) {
-  footer {
+  .footer-content {
     flex-direction: column;
     align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .footer-social {
+    align-self: flex-start;
   }
 }
 
@@ -893,64 +901,55 @@ footer {
   transform: translateY(0);
 }
 
-/* Notification Toast */
-
-.notification-toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  z-index: 10000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition-med),
-              transform var(--transition-med);
+/* Enhanced animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.notification-toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
+/* Smooth transitions for interactive elements */
+a, button {
+  transition: all var(--transition-fast);
 }
 
-.toast-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4),
-              0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 280px;
-  max-width: 90vw;
-  backdrop-filter: blur(10px);
+/* Improved focus states for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.notification-toast.error .toast-content {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  box-shadow: 0 12px 40px rgba(245, 87, 108, 0.4),
-              0 4px 12px rgba(0, 0, 0, 0.15);
+/* Better link hover states */
+.contact-info-item a,
+.project-link {
+  position: relative;
+  color: #0066cc;
+  text-decoration: none;
 }
 
-.toast-icon {
-  font-size: 20px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  flex-shrink: 0;
-  font-weight: 700;
+.contact-info-item a:hover,
+.project-link:hover {
+  color: #0052a3;
+  text-decoration: underline;
 }
 
-.toast-message {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
-  flex: 1;
+/* Enhanced card shadows */
+.card,
+.summary-card,
+.contact-card {
+  transition: box-shadow var(--transition-med), transform var(--transition-med);
+}
+
+.card:hover,
+.summary-card:hover,
+.contact-card:hover {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 }
 
