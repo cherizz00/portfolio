@@ -684,8 +684,63 @@ section:last-of-type {
 }
 
 .contact-info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  background: linear-gradient(145deg, #f8f9fa, #ffffff);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              background var(--transition-fast);
+}
+
+.contact-info-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+}
+
+.contact-icon {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.contact-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.contact-info-item a {
   font-size: 13px;
-  margin-bottom: 8px;
+  color: #000;
+  text-decoration: none;
+  word-break: break-word;
+  transition: color var(--transition-fast);
+}
+
+.contact-info-item a:hover {
+  color: #667eea;
+  text-decoration: underline;
 }
 
 .contact-form {
@@ -836,5 +891,66 @@ footer {
 [data-animate].in-view {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Notification Toast */
+
+.notification-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-med),
+              transform var(--transition-med);
+}
+
+.notification-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4),
+              0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 280px;
+  max-width: 90vw;
+  backdrop-filter: blur(10px);
+}
+
+.notification-toast.error .toast-content {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 12px 40px rgba(245, 87, 108, 0.4),
+              0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toast-icon {
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.toast-message {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  flex: 1;
 }
 

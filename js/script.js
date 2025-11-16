@@ -120,7 +120,7 @@
             // Success
             submitBtn.innerHTML = '<span>Message Sent! ✓</span>';
             submitBtn.style.backgroundColor = "#4ade80";
-            alert("Thank you! Your message has been sent successfully.");
+            showNotification("Message sent successfully!", "success");
             form.reset();
             
             // Reset button after 3 seconds
@@ -134,7 +134,7 @@
             // Error
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
-            alert("Sorry, there was an error sending your message. Please try again or email me directly at cherrybangari583@gmail.com");
+            showNotification("Failed to send message. Please try again or email directly.", "error");
             console.error("EmailJS Error:", error);
           }
         );
@@ -165,5 +165,35 @@
   );
 
   animatedBlocks.forEach((el) => animateObserver.observe(el));
+
+  // Notification Toast Function
+  function showNotification(message, type = "success") {
+    const toast = document.getElementById("notification-toast");
+    const toastIcon = document.getElementById("toast-icon");
+    const toastMessage = document.getElementById("toast-message");
+
+    if (!toast) return;
+
+    // Set icon and message
+    toastIcon.textContent = type === "success" ? "✓" : "✕";
+    toastMessage.textContent = message;
+
+    // Set type class
+    toast.className = "notification-toast";
+    if (type === "error") {
+      toast.classList.add("error");
+    }
+
+    // Show toast
+    toast.classList.add("show");
+
+    // Hide after 4 seconds
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 4000);
+  }
+
+  // Make function globally available
+  window.showNotification = showNotification;
 })();
 
