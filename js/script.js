@@ -47,8 +47,25 @@
       // Prevent body scroll when menu is open
       if (nav.classList.contains("nav-menu-open")) {
         document.body.style.overflow = "hidden";
+        // Move CTA button into menu on mobile
+        if (window.innerWidth <= 720) {
+          const navCta = document.querySelector(".nav-cta");
+          const navLinks = document.querySelector(".nav-links");
+          if (navCta && navLinks && !navLinks.contains(navCta)) {
+            navLinks.appendChild(navCta);
+          }
+        }
       } else {
         document.body.style.overflow = "";
+        // Move CTA button back to original position
+        if (window.innerWidth <= 720) {
+          const navCta = document.querySelector(".nav-cta");
+          const navInner = document.querySelector(".nav-inner");
+          const navLinks = document.querySelector(".nav-links");
+          if (navCta && navInner && navLinks && navLinks.contains(navCta)) {
+            navInner.appendChild(navCta);
+          }
+        }
       }
     });
   }
@@ -57,8 +74,29 @@
     link.addEventListener("click", () => {
       nav.classList.remove("nav-menu-open");
       document.body.style.overflow = "";
+      // Restore CTA button position
+      if (window.innerWidth <= 720) {
+        const navCta = document.querySelector(".nav-cta");
+        const navInner = document.querySelector(".nav-inner");
+        const navLinks = document.querySelector(".nav-links");
+        if (navCta && navInner && navLinks && navLinks.contains(navCta)) {
+          navInner.appendChild(navCta);
+        }
+      }
     });
   });
+
+  // Helper function to restore CTA button
+  function restoreCtaButton() {
+    if (window.innerWidth <= 720) {
+      const navCta = document.querySelector(".nav-cta");
+      const navInner = document.querySelector(".nav-inner");
+      const navLinks = document.querySelector(".nav-links");
+      if (navCta && navInner && navLinks && navLinks.contains(navCta)) {
+        navInner.appendChild(navCta);
+      }
+    }
+  }
 
   // Close menu when clicking outside or on overlay
   document.addEventListener("click", function(e) {
@@ -73,6 +111,7 @@
       if (!isClickInsideMenu && !isClickOnToggle) {
         nav.classList.remove("nav-menu-open");
         document.body.style.overflow = "";
+        restoreCtaButton();
       }
     }
   });
@@ -82,6 +121,7 @@
     if (e.key === "Escape" && nav && nav.classList.contains("nav-menu-open")) {
       nav.classList.remove("nav-menu-open");
       document.body.style.overflow = "";
+      restoreCtaButton();
     }
   });
 
