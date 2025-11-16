@@ -11,19 +11,78 @@
   const form = document.getElementById("contact-form");
   const downloadBtn = document.getElementById("download-resume");
   const animatedBlocks = document.querySelectorAll("[data-animate]");
+  const themeToggle = document.getElementById("theme-toggle");
 
   yearSpan.textContent = new Date().getFullYear();
 
+  // Theme Toggle Functionality
+  function getTheme() {
+    return localStorage.getItem("theme") || "dark";
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }
+
+  function initTheme() {
+    const savedTheme = getTheme();
+    setTheme(savedTheme);
+  }
+
+  if (themeToggle) {
+    initTheme();
+    
+    themeToggle.addEventListener("click", () => {
+      const currentTheme = getTheme();
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      setTheme(newTheme);
+    });
+  }
+
   if (navToggle) {
-    navToggle.addEventListener("click", function () {
+    navToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
       nav.classList.toggle("nav-menu-open");
+      // Prevent body scroll when menu is open
+      if (nav.classList.contains("nav-menu-open")) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
     });
   }
 
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
       nav.classList.remove("nav-menu-open");
+      document.body.style.overflow = "";
     });
+  });
+
+  // Close menu when clicking outside or on overlay
+  document.addEventListener("click", function(e) {
+    if (nav && nav.classList.contains("nav-menu-open")) {
+      const navLinksElement = nav.querySelector(".nav-links");
+      const navInner = nav.querySelector(".nav-inner");
+      const isClickInsideMenu = navLinksElement && navLinksElement.contains(e.target);
+      const isClickOnToggle = navToggle && navToggle.contains(e.target);
+      const isClickOnNavInner = navInner && navInner.contains(e.target) && !isClickOnToggle && !isClickInsideMenu;
+      
+      // Close if clicking outside menu or on overlay
+      if (!isClickInsideMenu && !isClickOnToggle) {
+        nav.classList.remove("nav-menu-open");
+        document.body.style.overflow = "";
+      }
+    }
+  });
+
+  // Close menu on escape key
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && nav && nav.classList.contains("nav-menu-open")) {
+      nav.classList.remove("nav-menu-open");
+      document.body.style.overflow = "";
+    }
   });
 
   const observer = new IntersectionObserver(
@@ -120,7 +179,7 @@
             // Success
             submitBtn.innerHTML = '<span>Message Sent! ✓</span>';
             submitBtn.style.backgroundColor = "#4ade80";
-            showNotification("Message sent successfully!", "success");
+            alert("Thank you! Your message has been sent successfully.");
             form.reset();
             
             // Reset button after 3 seconds
@@ -134,7 +193,7 @@
             // Error
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
-            showNotification("Failed to send message. Please try again or email directly.", "error");
+            alert("Sorry, there was an error sending your message. Please try again or email me directly at cherrybangari583@gmail.com");
             console.error("EmailJS Error:", error);
           }
         );
@@ -165,35 +224,5 @@
   );
 
   animatedBlocks.forEach((el) => animateObserver.observe(el));
-
-  // Notification Toast Function
-  function showNotification(message, type = "success") {
-    const toast = document.getElementById("notification-toast");
-    const toastIcon = document.getElementById("toast-icon");
-    const toastMessage = document.getElementById("toast-message");
-
-    if (!toast) return;
-
-    // Set icon and message
-    toastIcon.textContent = type === "success" ? "✓" : "✕";
-    toastMessage.textContent = message;
-
-    // Set type class
-    toast.className = "notification-toast";
-    if (type === "error") {
-      toast.classList.add("error");
-    }
-
-    // Show toast
-    toast.classList.add("show");
-
-    // Hide after 4 seconds
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 4000);
-  }
-
-  // Make function globally available
-  window.showNotification = showNotification;
 })();
 
