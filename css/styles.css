@@ -508,20 +508,44 @@ section:last-of-type {
 .card {
   border-radius: 24px;
   border: 1px solid var(--border-subtle);
-  padding: 18px 18px 16px;
-  background: #ffffff;
+  padding: 20px 20px 18px;
+  background: linear-gradient(145deg, #ffffff, #fafafa);
   box-shadow: var(--shadow-subtle);
+  transition: all var(--transition-med);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 0, 0, 0.08) 50%, 
+    transparent 100%);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12),
+              0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
 @media (max-width: 640px) {
   .skills-grid {
     grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 }
 
@@ -529,36 +553,178 @@ section:last-of-type {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
+  gap: 8px;
 }
 
 .skills-group-title {
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: #000;
+  position: relative;
+  transition: all var(--transition-fast);
 }
 
 .skills-group-tag {
-  font-size: 11px;
-  padding: 3px 7px;
+  font-size: 10px;
+  padding: 4px 9px;
   border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02));
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all var(--transition-fast);
+}
+
+.skills-group-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.04));
 }
 
 .skills-list {
-  font-size: 13px;
-  line-height: 1.7;
-  margin-bottom: 2px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  margin-bottom: 4px;
+  color: #1a1a1a;
+  transition: all var(--transition-fast);
+}
+
+.skills-list[hidden] {
+  display: none;
 }
 
 .skills-toggle {
   font-size: 11px;
   border-radius: 999px;
-  padding: 4px 7px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: rgba(0, 0, 0, 0.02);
-  margin-top: 8px;
+  padding: 5px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.01));
+  margin-top: 10px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.skills-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0, 0, 0, 0.05), 
+    transparent);
+  transition: left 0.3s ease;
+}
+
+.skills-toggle:hover {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.03));
+  border-color: rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.skills-toggle:hover::before {
+  left: 100%;
+}
+
+.skills-toggle:active {
+  transform: translateY(0);
+}
+
+/* Enhanced Highlights section */
+.highlights-card {
+  background: linear-gradient(145deg, #ffffff, #f8f8f8);
+  position: relative;
+}
+
+.highlights-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20px;
+  bottom: 20px;
+  width: 3px;
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0.12) 0%, 
+    rgba(0, 0, 0, 0.06) 50%, 
+    rgba(0, 0, 0, 0.12) 100%);
+  border-radius: 2px;
+}
+
+.highlights-card .skills-list {
+  font-size: 13.5px;
+  line-height: 1.85;
+  padding-left: 4px;
+}
+
+/* Skill group items with better spacing */
+.skills-grid > div {
+  position: relative;
+  padding: 4px 0;
+  transition: all var(--transition-fast);
+}
+
+.skills-grid > div:hover {
+  transform: translateX(2px);
+}
+
+.skills-grid > div:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(0, 0, 0, 0.08) 20%, 
+    rgba(0, 0, 0, 0.08) 80%, 
+    transparent 100%);
+  transition: opacity var(--transition-fast);
+}
+
+.skills-grid > div:hover::after {
+  opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+  .skills-grid > div:not(:last-child)::after {
+    display: none;
+  }
+  
+  .skills-grid > div:not(:last-child) {
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    margin-bottom: 16px;
+  }
+  
+  .skills-grid > div:hover {
+    transform: none;
+  }
+}
+
+/* Enhanced skill group title with subtle animation on hover */
+.skills-grid > div:hover .skills-group-title {
+  letter-spacing: 0.16em;
+}
+
+/* Better visual separation for skill items */
+.skills-list br {
+  display: block;
+  margin-bottom: 2px;
+  content: "";
 }
 
 /* Projects */
