@@ -93,7 +93,7 @@
   if (form) {
     // Initialize EmailJS
     (function() {
-      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+      emailjs.init("1RdG9o6-DR7HKj5zt");//1RdG9o6-DR7HKj5zt
     })();
 
     form.addEventListener("submit", function (e) {
@@ -114,7 +114,7 @@
 
       // Send email using EmailJS
       emailjs
-        .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formData)
+        .send("service_pus3mv9", "template_j1dobnh", formData)
         .then(
           function (response) {
             // Success
