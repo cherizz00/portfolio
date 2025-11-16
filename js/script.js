@@ -91,10 +91,53 @@
   });
 
   if (form) {
+    // Initialize EmailJS
+    (function() {
+      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+    })();
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      alert("This is a demo form. Replace this with your own form handling.");
-      form.reset();
+      
+      // Get form data
+      const formData = {
+        from_name: document.getElementById("name").value,
+        from_email: document.getElementById("email").value,
+        message: document.getElementById("message").value,
+      };
+
+      // Show loading state
+      const submitBtn = form.querySelector(".form-submit");
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span>Sending...</span> <span>⏳</span>';
+      submitBtn.disabled = true;
+
+      // Send email using EmailJS
+      emailjs
+        .send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formData)
+        .then(
+          function (response) {
+            // Success
+            submitBtn.innerHTML = '<span>Message Sent! ✓</span>';
+            submitBtn.style.backgroundColor = "#4ade80";
+            alert("Thank you! Your message has been sent successfully.");
+            form.reset();
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+              submitBtn.innerHTML = originalText;
+              submitBtn.style.backgroundColor = "";
+              submitBtn.disabled = false;
+            }, 3000);
+          },
+          function (error) {
+            // Error
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            alert("Sorry, there was an error sending your message. Please try again or email me directly at cherrybangari583@gmail.com");
+            console.error("EmailJS Error:", error);
+          }
+        );
     });
   }
 
