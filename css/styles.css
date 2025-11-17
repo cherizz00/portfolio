@@ -123,6 +123,26 @@ main {
   z-index: 1000;
   width: 100%;
   pointer-events: none;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 1;
+}
+
+.nav-shell.nav-hidden {
+  transform: translateX(-50%) translateY(-120%);
+  opacity: 0;
+}
+
+.nav-shell.nav-hidden .nav-inner {
+  pointer-events: none;
+}
+
+.nav-shell.nav-hidden:hover {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.nav-shell.nav-hidden:hover .nav-inner {
+  pointer-events: auto;
 }
 
 .nav-inner {
@@ -307,6 +327,11 @@ main {
 @media (max-width: 720px) {
   .nav-shell {
     top: 12px;
+  }
+
+  .nav-shell.nav-hidden {
+    transform: translateX(-50%) translateY(-120%);
+    opacity: 0;
   }
 
   .nav-inner {

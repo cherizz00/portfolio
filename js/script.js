@@ -147,10 +147,52 @@
 
   sections.forEach((section) => observer.observe(section));
 
+  // Navbar hide/show on scroll
+  const navShell = document.querySelector(".nav-shell");
+  let lastScrollTop = 0;
+  let scrollThreshold = 100; // Minimum scroll distance before hiding
+  let ticking = false;
+
+  function handleNavbarScroll() {
+    // Don't hide navbar if mobile menu is open
+    if (nav && nav.classList.contains("nav-menu-open")) {
+      navShell.classList.remove("nav-hidden");
+      return;
+    }
+
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollDelta = scrollTop - lastScrollTop;
+
+    // Don't hide navbar at the very top of the page
+    if (scrollTop < scrollThreshold) {
+      navShell.classList.remove("nav-hidden");
+    } else {
+      // Hide when scrolling down, show when scrolling up
+      if (Math.abs(scrollDelta) > 5) { // Minimum scroll distance to trigger
+        if (scrollDelta > 0) {
+          // Scrolling down - hide navbar
+          navShell.classList.add("nav-hidden");
+        } else {
+          // Scrolling up - show navbar
+          navShell.classList.remove("nav-hidden");
+        }
+      }
+    }
+
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    ticking = false;
+  }
+
   window.addEventListener("scroll", () => {
-    const show = window.scrollY > 260;
-    backToTop.classList.toggle("visible", show);
-  });
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleNavbarScroll();
+        const show = window.scrollY > 260;
+        backToTop.classList.toggle("visible", show);
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 
   backToTop.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
