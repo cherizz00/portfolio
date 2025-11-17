@@ -21,8 +21,5 @@ node_modules/
 # Build files (if you add a build process)
 dist/
 build/
-.next/
-out/
 
-# Vercel
 .vercel
