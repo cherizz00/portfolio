@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -967,6 +968,7 @@ function App() {
           </div>
         </div>
       </footer>
+      <SpeedInsights />
     </>
   );
 }
