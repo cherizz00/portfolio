@@ -6,11 +6,13 @@ A modern, responsive portfolio website for Dasari Venkata Prasanna Kumar - Full-
 
 ```
 webd/
-├── 1.html              # Main HTML file
+├── index.html          # Main HTML file (GitHub Pages entry point)
 ├── css/
 │   └── styles.css      # All CSS styles
 ├── js/
 │   └── script.js       # JavaScript functionality
+├── EMAILJS_SETUP.md    # EmailJS configuration guide
+├── QUICK_SETUP.md      # Quick setup instructions
 └── README.md           # Project documentation
 ```
 
@@ -19,6 +21,9 @@ webd/
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Modern UI**: Clean, minimalist design with smooth animations
 - **Smooth Scrolling**: Navigation with smooth scroll behavior
+- **Auto-Hide Navbar**: Navbar automatically hides on scroll down and shows on scroll up
+- **Dark/Light Theme**: Toggle between dark and light modes
+- **Mobile Responsive**: Optimized mobile menu with slide-in navigation
 - **Interactive Elements**: 
   - Project filtering (ML/Web/All)
   - Expandable skill details
@@ -35,13 +40,14 @@ webd/
 ## 🚀 Getting Started
 
 1. Clone or download this repository
-2. Open `1.html` in your web browser
+2. Open `index.html` in your web browser
 3. No build process or dependencies required - pure HTML, CSS, and JavaScript
+4. **GitHub Pages**: The site is automatically deployed at `https://cherizz00.github.io/portfolio/`
 
 ## 📝 Customization
 
 ### Update Personal Information
-Edit the content in `1.html`:
+Edit the content in `index.html`:
 - Name, role, and description in the hero section
 - Experience entries in the timeline
 - Skills and technologies
