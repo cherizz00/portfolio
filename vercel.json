@@ -5,7 +5,7 @@
       "src": "portfolio-react/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "portfolio-react/dist"
+        "distDir": "dist"
       }
     }
   ],
