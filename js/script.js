@@ -154,6 +154,9 @@
   let ticking = false;
 
   function handleNavbarScroll() {
+    // Safety check - ensure navShell exists
+    if (!navShell) return;
+
     // Don't hide navbar if mobile menu is open
     if (nav && nav.classList.contains("nav-menu-open")) {
       navShell.classList.remove("nav-hidden");
@@ -183,16 +186,20 @@
     ticking = false;
   }
 
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        handleNavbarScroll();
-        const show = window.scrollY > 260;
-        backToTop.classList.toggle("visible", show);
-      });
-      ticking = true;
-    }
-  }, { passive: true });
+  if (navShell) {
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleNavbarScroll();
+          const show = window.scrollY > 260;
+          if (backToTop) {
+            backToTop.classList.toggle("visible", show);
+          }
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
 
   backToTop.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
