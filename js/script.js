@@ -12,6 +12,11 @@
   const downloadBtn = document.getElementById("download-resume");
   const animatedBlocks = document.querySelectorAll("[data-animate]");
   const themeToggle = document.getElementById("theme-toggle");
+  const heroTimerEl = document.getElementById("hero-timer");
+  const heroLocationTextEl = document.getElementById("hero-location-text");
+  const heroLocationLinkEl = document.getElementById("hero-location-link");
+  const heroTimezoneEl = document.getElementById("hero-timezone");
+  const heroDateEl = document.getElementById("hero-date");
 
   yearSpan.textContent = new Date().getFullYear();
 
@@ -38,6 +43,84 @@
       const newTheme = currentTheme === "dark" ? "light" : "dark";
       setTheme(newTheme);
     });
+  }
+
+  // World clock: show visitor's local time in hero card
+  if (heroTimerEl) {
+    const timeFormatter = new Intl.DateTimeFormat(undefined, {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+
+    const dateFormatter = new Intl.DateTimeFormat(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+
+    const timeZoneFormatter = new Intl.DateTimeFormat(undefined, {
+      timeZoneName: "short",
+    });
+
+    function updateLocalTime() {
+      const now = new Date();
+      heroTimerEl.textContent = timeFormatter.format(now);
+      if (heroDateEl) {
+        heroDateEl.textContent = dateFormatter.format(now);
+      }
+    }
+
+    const tzPart = timeZoneFormatter
+      .formatToParts(new Date())
+      .find((part) => part.type === "timeZoneName");
+    if (heroTimezoneEl) {
+      heroTimezoneEl.textContent =
+        (tzPart && tzPart.value) ||
+        Intl.DateTimeFormat().resolvedOptions().timeZone;
+    }
+
+    updateLocalTime();
+    setInterval(updateLocalTime, 1000);
+  }
+
+  // Geolocation: show visitor's coordinates (lat, lon)
+  function setLocationDisplay(text, coords) {
+    if (!heroLocationTextEl) return;
+    heroLocationTextEl.textContent = text;
+
+    if (heroLocationLinkEl) {
+      if (coords) {
+        heroLocationLinkEl.href = `https://www.google.com/maps?q=${coords}`;
+        heroLocationLinkEl.setAttribute("aria-disabled", "false");
+      } else {
+        heroLocationLinkEl.removeAttribute("href");
+        heroLocationLinkEl.setAttribute("aria-disabled", "true");
+      }
+    }
+  }
+
+  if (heroLocationTextEl) {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const lat = latitude.toFixed(3);
+          const lon = longitude.toFixed(3);
+          setLocationDisplay(`Lat ${lat}, Lon ${lon}`, `${lat},${lon}`);
+        },
+        () => {
+          setLocationDisplay("Location permission denied");
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 8000,
+          maximumAge: 60000,
+        }
+      );
+    } else {
+      setLocationDisplay("Location not available");
+    }
   }
 
   if (navToggle) {

@@ -91,36 +91,63 @@
       </div>
 
       <div class="hero-right" data-animate>
-        <div class="summary-card">
-          <div class="summary-row">
-            <div>
-              <div class="summary-label">Current focus</div>
-              <div class="summary-value">Full-Stack Development, Frontend, ML Integration</div>
-            </div>
+        <div class="profile-card" aria-label="GitHub profile">
+          <div class="profile-photo-wrapper">
+            <img
+              src="https://github.com/cherizz00.png?size=400"
+              alt="GitHub profile of Dasari Venkata Prasanna Kumar"
+              class="profile-photo"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-          <div class="summary-row">
-            <div>
-              <div class="summary-label">Experience</div>
-              <div class="summary-value">Front-End Developer Intern · Logicmojo (May 2025 – Jul 2025)</div>
-            </div>
+          <div class="profile-username">@cherizz00</div>
+          <a
+            class="profile-link"
+            href="https://github.com/cherizz00"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>Open GitHub</span>
+            <span>↗</span>
+          </a>
+        </div>
+        <div class="hero-skills" aria-label="Skill set">
+          <div class="hero-skills-title">Skills</div>
+          <div class="hero-skills-list">
+            <span class="hero-skills-label">Programming</span>
+            <span>C</span> · <span>Python</span> · <span>Java</span> · <span>JavaScript</span> · <span>SQL</span><br>
+            <span class="hero-skills-label">Frameworks</span>
+            <span>React</span> · <span>Node.js</span> · <span>MongoDB</span> · <span>Angular</span> · <span>Tailwind CSS</span><br>
+            <span class="hero-skills-label">Tools & Cloud</span>
+            <span>VS Code</span> · <span>GitHub</span> · <span>Vercel</span> · <span>AWS (EC2, S3)</span>
           </div>
-          <div class="summary-row">
+        </div>
+        <div class="language-card" aria-label="Quick info">
+          <div class="language-card-title">Quick info</div>
+          <div class="hero-info-row hero-info-row--time">
             <div>
-              <div class="summary-label">Core stack</div>
-              <div class="summary-pill-row">
-                <div class="summary-pill">React</div>
-                <div class="summary-pill">Node.js</div>
-                <div class="summary-pill">MongoDB</div>
-                <div class="summary-pill">Python</div>
-                <div class="summary-pill">Java</div>
+              <div class="hero-info-label">Local time</div>
+              <div class="hero-time-value">
+                <span class="hero-timer" id="hero-timer">--:--:--</span>
+                <span class="hero-timezone" id="hero-timezone">Detecting…</span>
               </div>
             </div>
+            <div class="hero-date" id="hero-date">--</div>
           </div>
-          <div class="summary-row">
-            <div>
-              <div class="summary-label">Contact</div>
-              <div class="summary-value">cherrybangari583@gmail.com · GitHub: cherizz00</div>
-            </div>
+          <div class="hero-info-row hero-info-row--location">
+            <div class="hero-info-label">Live coordinates</div>
+            <a
+              class="hero-location-link"
+              id="hero-location-link"
+              href="javascript:void(0)"
+              aria-disabled="true"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span class="hero-location-pin">📍</span>
+              <span id="hero-location-text">Allow location access to fetch coords</span>
+            </a>
           </div>
         </div>
       </div>

@@ -17,9 +17,11 @@ desktop.ini
 
 # Node modules (if you add any in the future)
 node_modules/
+**/node_modules/
 
 # Build files (if you add a build process)
 dist/
+**/dist/
 build/
 .next/
 
