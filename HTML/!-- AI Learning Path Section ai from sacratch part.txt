@@ -1,0 +1,636 @@
+   <!-- AI Learning Path Section -->
+    <section class="section learning-path-section" id="learning-path">
+        <div class="container">
+            <h2 class="section-title">Your AI Learning Path</h2>
+            <p class="section-subtitle">Follow our structured roadmap to master AI & Gen-AI technologies step by step</p>
+            
+            <!-- Learning Track Selector -->
+            <div class="track-selector">
+                <h3 class="track-title">Choose Your Learning Track</h3>
+                <div class="track-options">
+                    <button class="track-btn active" data-track="technical">
+                        <i class="fas fa-code"></i>
+                        <span>Technical Track</span>
+                        <div class="track-desc">For developers & engineers</div>
+                    </button>
+                    <button class="track-btn" data-track="business">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Business Track</span>
+                        <div class="track-desc">For managers & strategists</div>
+                    </button>
+                    <button class="track-btn" data-track="research">
+                        <i class="fas fa-flask"></i>
+                        <span>Research Track</span>
+                        <div class="track-desc">For researchers & academics</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Learning Path Content -->
+            <div class="learning-path-content">
+                
+                <!-- Technical Track -->
+                <div class="track-content active" data-track="technical">
+                    <div class="path-timeline">
+                        
+                        <!-- Phase 1: Foundation -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">1</div>
+                                <div class="phase-info">
+                                    <h3>Foundation Phase</h3>
+                                    <span class="phase-duration">2-3 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card" data-module-id="python-basics">
+                                    <div class="module-icon">
+                                        <i class="fab fa-python"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Python Programming</h4>
+                                        <p>Master Python basics, data structures, OOP concepts</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 4-6 weeks</span>
+                                            <span class="module-level">Beginner</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Variables & Functions</span>
+                                            <span>Data Structures</span>
+                                            <span>Object-Oriented Programming</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="data-analysis">
+                                    <div class="module-icon">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Data Analysis & Visualization</h4>
+                                        <p>Learn Pandas, NumPy, Matplotlib for data manipulation</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 3-4 weeks</span>
+                                            <span class="module-level">Beginner</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Pandas & NumPy</span>
+                                            <span>Data Cleaning</span>
+                                            <span>Visualization</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="math-foundations">
+                                    <div class="module-icon">
+                                        <i class="fas fa-calculator"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Mathematics for AI</h4>
+                                        <p>Statistics, Linear Algebra, and Calculus fundamentals</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 2-3 weeks</span>
+                                            <span class="module-level">Beginner</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Statistics</span>
+                                            <span>Linear Algebra</span>
+                                            <span>Probability</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 2: Core AI -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">2</div>
+                                <div class="phase-info">
+                                    <h3>Core AI & Machine Learning</h3>
+                                    <span class="phase-duration">3-4 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card" data-module-id="ml-algorithms">
+                                    <div class="module-icon">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Machine Learning Algorithms</h4>
+                                        <p>Supervised & unsupervised learning with Scikit-learn</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 6-8 weeks</span>
+                                            <span class="module-level">Intermediate</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Regression & Classification</span>
+                                            <span>Clustering</span>
+                                            <span>Model Evaluation</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="deep-learning">
+                                    <div class="module-icon">
+                                        <i class="fas fa-network-wired"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Deep Learning Fundamentals</h4>
+                                        <p>Neural networks, CNNs, RNNs with TensorFlow/PyTorch</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 6-8 weeks</span>
+                                            <span class="module-level">Intermediate</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Neural Networks</span>
+                                            <span>CNNs for Vision</span>
+                                            <span>RNNs for Sequences</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="ai-projects">
+                                    <div class="module-icon">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>AI Project Development</h4>
+                                        <p>End-to-end project building and deployment</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 4-6 weeks</span>
+                                            <span class="module-level">Intermediate</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Project Planning</span>
+                                            <span>Model Training</span>
+                                            <span>Deployment</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 3: Generative AI -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">3</div>
+                                <div class="phase-info">
+                                    <h3>Generative AI & LLMs</h3>
+                                    <span class="phase-duration">3-4 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card featured" data-module-id="llms">
+                                    <div class="module-icon">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Large Language Models</h4>
+                                        <p>GPT, BERT, T5 architecture and fine-tuning techniques</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 6-8 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Transformer Architecture</span>
+                                            <span>GPT-4 & ChatGPT</span>
+                                            <span>Fine-tuning</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card featured" data-module-id="prompt-engineering">
+                                    <div class="module-icon">
+                                        <i class="fas fa-magic"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Prompt Engineering</h4>
+                                        <p>Advanced prompting techniques and AI interaction</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 2-3 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Prompt Design</span>
+                                            <span>Chain-of-Thought</span>
+                                            <span>Few-shot Learning</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card featured" data-module-id="rag-systems">
+                                    <div class="module-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>RAG & Vector Databases</h4>
+                                        <p>Retrieval-Augmented Generation and knowledge systems</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 4-5 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Vector Embeddings</span>
+                                            <span>Pinecone & ChromaDB</span>
+                                            <span>RAG Pipelines</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 4: Production & MLOps -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">4</div>
+                                <div class="phase-info">
+                                    <h3>Production & MLOps</h3>
+                                    <span class="phase-duration">2-3 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card" data-module-id="model-deployment">
+                                    <div class="module-icon">
+                                        <i class="fab fa-docker"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Model Deployment</h4>
+                                        <p>Docker, FastAPI, cloud deployment strategies</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 4-5 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Docker & APIs</span>
+                                            <span>AWS/GCP Deployment</span>
+                                            <span>Monitoring</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="mlops-pipeline">
+                                    <div class="module-icon">
+                                        <i class="fas fa-cogs"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>MLOps Pipeline</h4>
+                                        <p>CI/CD for ML, model versioning, automated training</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 4-6 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>MLflow & Kubeflow</span>
+                                            <span>Model Versioning</span>
+                                            <span>Automated Pipelines</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Track -->
+                <div class="track-content" data-track="business">
+                    <div class="path-timeline">
+                        
+                        <!-- Phase 1: AI Fundamentals -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">1</div>
+                                <div class="phase-info">
+                                    <h3>AI Business Fundamentals</h3>
+                                    <span class="phase-duration">1-2 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card" data-module-id="ai-strategy">
+                                    <div class="module-icon">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>AI Strategy & Vision</h4>
+                                        <p>Understanding AI capabilities and business impact</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 2-3 weeks</span>
+                                            <span class="module-level">Beginner</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>AI vs ML vs Gen-AI</span>
+                                            <span>Business Use Cases</span>
+                                            <span>ROI Assessment</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="data-driven-decisions">
+                                    <div class="module-icon">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Data-Driven Decision Making</h4>
+                                        <p>Analytics fundamentals and business intelligence</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 3-4 weeks</span>
+                                            <span class="module-level">Beginner</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Data Analysis</span>
+                                            <span>KPI Tracking</span>
+                                            <span>Dashboard Design</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 2: Gen-AI for Business -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">2</div>
+                                <div class="phase-info">
+                                    <h3>Gen-AI for Business</h3>
+                                    <span class="phase-duration">2-3 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card featured" data-module-id="chatgpt-business">
+                                    <div class="module-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>ChatGPT & Business Applications</h4>
+                                        <p>Practical Gen-AI tools for productivity</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 3-4 weeks</span>
+                                            <span class="module-level">Intermediate</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Content Creation</span>
+                                            <span>Process Automation</span>
+                                            <span>Customer Service</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="ai-transformation">
+                                    <div class="module-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>AI Transformation Strategy</h4>
+                                        <p>Planning and executing AI initiatives</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 4-6 weeks</span>
+                                            <span class="module-level">Intermediate</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Change Management</span>
+                                            <span>Team Building</span>
+                                            <span>Vendor Selection</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 3: AI Ethics & Governance -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">3</div>
+                                <div class="phase-info">
+                                    <h3>AI Ethics & Governance</h3>
+                                    <span class="phase-duration">1-2 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card" data-module-id="responsible-ai">
+                                    <div class="module-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Responsible AI</h4>
+                                        <p>Ethics, bias, and responsible deployment</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 3-4 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Bias Detection</span>
+                                            <span>Privacy & Security</span>
+                                            <span>Regulatory Compliance</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Research Track -->
+                <div class="track-content" data-track="research">
+                    <div class="path-timeline">
+                        
+                        <!-- Phase 1: Research Foundations -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">1</div>
+                                <div class="phase-info">
+                                    <h3>Research Foundations</h3>
+                                    <span class="phase-duration">3-4 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card" data-module-id="research-methods">
+                                    <div class="module-icon">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>AI Research Methods</h4>
+                                        <p>Research methodology and academic writing</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 6-8 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Literature Review</span>
+                                            <span>Experimental Design</span>
+                                            <span>Academic Writing</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card" data-module-id="advanced-math">
+                                    <div class="module-icon">
+                                        <i class="fas fa-atom"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Advanced Mathematics</h4>
+                                        <p>Linear algebra, optimization, information theory</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 8-10 weeks</span>
+                                            <span class="module-level">Advanced</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Advanced Calculus</span>
+                                            <span>Optimization Theory</span>
+                                            <span>Information Theory</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 2: Cutting-edge AI -->
+                        <div class="phase-container">
+                            <div class="phase-header">
+                                <div class="phase-number">2</div>
+                                <div class="phase-info">
+                                    <h3>Cutting-edge AI Research</h3>
+                                    <span class="phase-duration">4-6 months</span>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-modules">
+                                <div class="module-card featured">
+                                    <div class="module-icon">
+                                        <i class="fas fa-microscope"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Novel AI Architectures</h4>
+                                        <p>Latest model architectures and innovations</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 8-10 weeks</span>
+                                            <span class="module-level">Expert</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Transformer Variants</span>
+                                            <span>Diffusion Models</span>
+                                            <span>Multimodal AI</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="module-card">
+                                    <div class="module-icon">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div class="module-content">
+                                        <h4>Research Publication</h4>
+                                        <p>Publishing research and peer review process</p>
+                                        <div class="module-meta">
+                                            <span class="module-time"><i class="fas fa-clock"></i> 6-12 weeks</span>
+                                            <span class="module-level">Expert</span>
+                                        </div>
+                                        <div class="module-topics">
+                                            <span>Paper Writing</span>
+                                            <span>Peer Review</span>
+                                            <span>Conference Submission</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Tracker -->
+            <div class="progress-tracker">
+                <h3>Track Your Progress</h3>
+                <div class="progress-summary">
+                    <div class="progress-stat">
+                        <div class="stat-number" id="completedModules">0</div>
+                        <div class="stat-label">Modules Completed</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="stat-number" id="totalTimeSpent">0</div>
+                        <div class="stat-label">Weeks Invested</div>
+                    </div>
+                    <div class="progress-stat">
+                        <div class="stat-number" id="skillLevel">Beginner</div>
+                        <div class="stat-label">Current Level</div>
+                    </div>
+                </div>
+                
+                <div class="next-steps">
+                    <h4>Recommended Next Steps</h4>
+                    <div class="step-cards">
+                        <div class="step-card">
+                            <i class="fas fa-play"></i>
+                            <span>Start with Python Programming</span>
+                        </div>
+                        <div class="step-card">
+                            <i class="fas fa-book"></i>
+                            <span>Take LogicMojo AI Bootcamp</span>
+                        </div>
+                        <div class="step-card">
+                            <i class="fas fa-users"></i>
+                            <span>Join AI Community</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Recommendations -->
+            <div class="path-course-recommendations">
+                <h3>Courses That Match Your Path</h3>
+                <div class="recommendation-grid">
+                    <div class="recommendation-card" data-track="technical">
+                        <div class="rec-header">
+                            <i class="fas fa-star"></i>
+                            <span>Perfect for Technical Track</span>
+                        </div>
+                        <h4>LogicMojo Advanced AI & Gen-AI</h4>
+                        <p>Complete technical curriculum covering all phases of your learning path</p>
+                        <div class="rec-features">
+                            <span>✓ Python to Production</span>
+                            <span>✓ 12 Real Projects</span>
+                            <span>✓ Weekend Schedule</span>
+                        </div>
+                        <a href="#course-grid" class="btn btn-primary">View Details</a>
+                    </div>
+                    
+                    <div class="recommendation-card" data-track="business">
+                        <div class="rec-header">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Perfect for Business Track</span>
+                        </div>
+                        <h4>Great Learning Advanced AI/ML</h4>
+                        <p>Business-focused AI curriculum with practical applications</p>
+                        <div class="rec-features">
+                            <span>✓ Business Cases</span>
+                            <span>✓ No-code Tools</span>
+                            <span>✓ ROI Focus</span>
+                        </div>
+                        <a href="#course-grid" class="btn btn-primary">View Details</a>
+                    </div>
+                    
+                    <div class="recommendation-card" data-track="research">
+                        <div class="rec-header">
+                            <i class="fas fa-flask"></i>
+                            <span>Perfect for Research Track</span>
+                        </div>
+                        <h4>HarvardX TinyML + DL Bundle</h4>
+                        <p>Academic rigor with cutting-edge research opportunities</p>
+                        <div class="rec-features">
+                            <span>✓ Research Methods</span>
+                            <span>✓ Harvard Faculty</span>
+                            <span>✓ Publications</span>
+                        </div>
+                        <a href="#course-grid" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

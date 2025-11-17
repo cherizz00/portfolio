@@ -1,0 +1,41 @@
+.navbar {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 20px;
+    padding: 10px 20px;
+    border: 2px solid #404581; /* Your custom color */
+    border-radius: 8px;
+    background: rgba(64, 69, 129, 0.2);
+    box-shadow: 0 0 10px #404581;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    animation: floatNav 4s ease-in-out infinite alternate;
+  }
+  
+  .navbar a:hover {
+    background: rgba(64, 69, 129, 0.5);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 20px #404581, 0 0 30px #404581;
+  }
+  
+  /* Floating Animation for Nav Buttons */
+  @keyframes floatNav {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-5px);
+    }
+  }
+  

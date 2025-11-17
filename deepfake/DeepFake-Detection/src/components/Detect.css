@@ -1,0 +1,86 @@
+.detect-container {
+    text-align: center;
+    padding: 100px 30px 30px 30px; /* top padding increased */
+    color: #fff;
+    min-height: 100vh;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+    background-size: 400% 400%;
+    animation: oceanEffect 15s ease infinite;
+}
+
+@keyframes oceanEffect {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px; /* Increased space below heading */
+    text-shadow: 2px 2px 8px #000;
+}
+
+.detect-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* spacing between "Upload Here" & "Click Here to Predict" */
+    margin-top: 20px;
+}
+
+.file-label {
+    background: #302e5e;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    animation: blink 1.5s infinite;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.file-label:hover {
+    transform: scale(1.05);
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.predict-button {
+    background: #272748;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.predict-button:hover {
+    background: #252544;
+    transform: scale(1.05);
+}
+
+.result {
+    margin-top: 30px;
+    font-size: 1.4rem;
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(0,0,0,0.5);
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.real {
+    border: 2px solid #4caf50;
+}
+
+.fake {
+    border: 2px solid #f44336;
+}

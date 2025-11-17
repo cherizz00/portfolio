@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LogicMojo • System-Design Course</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ═════ TOKENS & GLOBAL ═════ -->
+  <style>
+    :root {
+      --violet: #6949ff;
+      --text: #111;
+      --sub: #495057;
+      --bg: #f9fafe;
+      --card: #ffffff;
+      --radius: 16px;
+      --shadow-light: 0 8px 28px rgba(0, 0, 0, 0.08);
+      --shadow-deep: 0 16px 48px rgba(0, 0, 0, 0.18);
+      --line: #e7e9f4;
+      --tick: #00aa55;
+      --ease: cubic-bezier(.23, 1, .32, 1);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1117;
+        --card: #181a22;
+        --text: #f1f3f5;
+        --sub: #c5c8d0;
+        --line: #2a2d35;
+        --shadow-light: 0 12px 28px rgba(0, 0, 0, .55);
+      }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+    body {
+      font-family: Inter, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .lmz-section {
+      padding: 4rem 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .lmz-container {
+      max-width: 1150px;
+      margin-inline: auto;
+    }
+    .lmz-h2 {
+      font: 700 clamp(1.8rem, 3vw + 1rem, 2.3rem)/1.25 Inter, sans-serif;
+      margin-bottom: 2.5rem;
+    }
+    .lmz-index {
+      margin-right: .45rem;
+    }
+    .lmz-accent {
+      color: var(--violet);
+    }
+    .lmz-btn {
+      display: inline-block;
+      border: none;
+      border-radius: var(--radius);
+      background: #0747a6;
+      color: #fff;
+      font: 600 .95rem/1 Inter;
+      cursor: pointer;
+      padding: .9rem 2.4rem;
+      transition: transform .18s;
+    }
+    .lmz-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    /* ─── 3-D CARD BASE ───────────────────────── */
+    .lmz-card {
+      position: relative;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-light);
+      transform-style: preserve-3d;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .lmz-card:hover {
+      box-shadow: var(--shadow-deep);
+    }
+    .lmz-inner {
+      border-radius: inherit;
+      position: relative;
+      z-index: 2;
+      transform-style: preserve-3d;
+      transition: transform .25s var(--ease);
+    }
+    .lmz-glow {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(
+        700px circle at 50% 50%,
+        rgba(255, 255, 255, .45),
+        transparent 65%
+      );
+      opacity: 0;
+      transition: opacity .25s var(--ease);
+    }
+    .lmz-card:hover .lmz-glow {
+      opacity: 1;
+    }
+
+    /* ─── GLOBAL LIST / TABLE STYLES ───────────── */
+    .lmz-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+      margin-top: .8rem;
+    }
+    .lmz-table th {
+      background: var(--violet);
+      color: #fff;
+      padding: .6rem;
+      text-align: left;
+    }
+    .lmz-table td {
+      padding: .6rem .65rem;
+      border: 1px solid var(--line);
+    }
+
+    /* ============ BACKGROUND & PARALLAX ============ */
+    #vanta-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .paral {
+      position: absolute;
+      font-size: 2.8rem;
+      user-select: none;
+      pointer-events: none;
+      color: var(--violet);
+      opacity: .25;
+    }
+
+    /* ─── SECTION 1 (Flip Cards with Smaller Size) ───────────────── */
+    .lmz-grid1 {
+      display: grid;
+      gap: 1.4rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .flip-card {
+      perspective: 1000px;
+      width: 100%;
+      height: 240px;
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform .6s;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-light);
+      background: var(--card);
+    }
+    .flip-card:hover .flip-inner {
+      transform: rotateY(180deg);
+      box-shadow: var(--shadow-deep);
+    }
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .flip-front {
+      background: var(--card);
+    }
+    .flip-front svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: .8rem;
+      stroke: var(--violet);
+      fill: none;
+    }
+    .flip-front h3 {
+      font: 600 .95rem/1.3 Inter;
+      color: var(--text);
+      text-align: center;
+      margin: 0;
+    }
+    .flip-back {
+      background: var(--violet);
+      color: #fff;
+      transform: rotateY(180deg);
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .flip-back p {
+      font: .9rem/1.4 Inter;
+      margin: 0;
+    }
+
+    /* ─── SECTION 2 (Overview + CTA) ───────────────────── */
+    .lmz-grid2 {
+      display: grid;
+      gap: 1.6rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .lmz-ov {
+      display: flex;
+      gap: 1rem;
+      padding: 2rem 1.4rem 2.2rem;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-light);
+    }
+    .lmz-ov svg {
+      flex: none;
+      width: 48px;
+      height: 48px;
+      transform: translateZ(25px);
+    }
+    .lmz-ov h3 {
+      font: 600 1rem/1.4 Inter;
+      margin-bottom: .5rem;
+    }
+    .lmz-ov p {
+      font: .94rem/1.6 Inter;
+      color: var(--sub);
+    }
+    .lmz-cta {
+      margin-top: 3rem;
+      text-align: center;
+      padding: 3rem 1.6rem;
+      background: #0747a6;
+      color: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-light);
+    }
+    .lmz-cta p {
+      font: 600 clamp(1.15rem, 2vw + 1rem, 1.6rem)/1.4 Inter;
+      margin: 0 0 1.8rem;
+    }
+
+    /* ─── SECTION 3 (FAQ) ───────────────────────── */
+    .lmz-faq summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1.25rem 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font: 600 1rem/1.4 Inter;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-light);
+      margin-bottom: .8rem;
+    }
+    .lmz-faq summary::-webkit-details-marker {
+      display: none;
+    }
+    .lmz-arr {
+      width: 22px;
+      height: 22px;
+      stroke: var(--text);
+      stroke-width: 2;
+      fill: none;
+      transition: transform .3s;
+    }
+    .lmz-faq[open] .lmz-arr {
+      transform: rotate(180deg);
+    }
+    .lmz-body {
+      padding: 0 1.6rem 1.8rem;
+      font: .95rem/1.6 Inter;
+      color: var(--sub);
+      background: var(--card);
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .lmz-faq + .lmz-faq {
+      margin-top: .8rem;
+    }
+
+    /* ─── SECTION 4 (Vertical Timeline) ─────────────────── */
+    .timeline-section {
+      position: relative;
+      padding: 2rem 1rem;
+      z-index: 2;
+    }
+    .timeline-container {
+      position: relative;
+      margin: 0 auto;
+      padding: 0 2rem;
+      max-width: 800px;
+    }
+    .timeline-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      background: var(--violet);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      position: relative;
+      width: 100%;
+      display: flex;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .timeline-item.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Alternate left/right */
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-left: 0;
+      margin-right: calc(50% + 2rem);
+      text-align: right;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-left: calc(50% + 2rem);
+      margin-right: 0;
+      text-align: left;
+    }
+    .timeline-item .timeline-marker {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background: var(--violet);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px var(--card);
+    }
+    .timeline-item .timeline-content {
+      position: relative;
+      background: var(--card);
+      padding: 1.2rem 1.4rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-light);
+      width: 100%;
+      max-width: 380px;
+    }
+    .timeline-item .timeline-content h3 {
+      margin: 0 0 .6rem;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .timeline-item .timeline-content p {
+      margin: 0;
+      font: .95rem/1.45 Inter;
+      color: var(--sub);
+    }
+    @media (max-width: 900px) {
+      .timeline-item .timeline-content {
+        max-width: 300px;
+      }
+    }
+    @media (max-width: 640px) {
+      .timeline-container::before {
+        left: 20px;
+      }
+      .timeline-item {
+        flex-direction: row;
+        margin-bottom: 2rem;
+      }
+      .timeline-item .timeline-marker {
+        left: 20px;
+        top: 0;
+        transform: translateX(0);
+      }
+      .timeline-item .timeline-content {
+        margin: 0 0 0 60px !important; /* 20px marker + 40px gap */
+        max-width: calc(100% - 80px);
+        text-align: left !important;
+      }
+    }
+
+    /* ─── SECTION 5 (3D Carousel + Fallback Grid) ───────────────── */
+    #projects {
+      background: transparent; /* allow Vanta behind */
+      z-index: 2;
+      position: relative;
+    }
+    .lmz-sup {
+      max-width: 780px;
+      font: .94rem/1.6 Inter;
+      color: var(--sub);
+      margin: -.5rem 0 2rem;
+    }
+    .lmz-ticks {
+      list-style: none;
+      display: grid;
+      gap: .55rem;
+      margin: 0 0 2.5rem;
+      padding: 0;
+    }
+    .lmz-ticks li::before {
+      content: "✔";
+      color: var(--tick);
+      margin-right: .45rem;
+    }
+
+    /* Hide the fallback grid by default; show only on mobile */
+    .lmz-grid-fallback {
+      display: none;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .lmz-grid-fallback .lmz-proj {
+      width: 100%;
+    }
+
+    /* 3D carousel container */
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 360px; /* enough to show cards in 3D */
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      overflow: visible;
+    }
+    /* Each item is absolutely positioned at the center, then rotated & moved outward */
+    .carousel__item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-style: preserve-3d;
+      transform-origin: center center -240px; /* move each card back by radius */
+      opacity: 0.9;
+      transition: transform .3s;
+    }
+    /* The size of each card */
+    .carousel__item .lmz-proj {
+      width: 280px; /* slightly smaller than 340 fallback */
+      margin: 0 auto;
+    }
+    /* Animation: spin the entire carousel around Y axis */
+    @keyframes rotateCarousel {
+      from {
+        transform: rotateY(0deg);
+      }
+      to {
+        transform: rotateY(-360deg);
+      }
+    }
+    .carousel {
+      animation: rotateCarousel 20s infinite linear;
+    }
+
+    /* Position each of the four items at 90° intervals around a circle of radius 240px */
+    /* Item 1: 0° */
+    .carousel__item:nth-child(1) {
+      transform: rotateY(0deg) translateZ(240px) translate(-50%, -50%);
+    }
+    /* Item 2: 90° */
+    .carousel__item:nth-child(2) {
+      transform: rotateY(90deg) translateZ(240px) translate(-50%, -50%);
+    }
+    /* Item 3: 180° */
+    .carousel__item:nth-child(3) {
+      transform: rotateY(180deg) translateZ(240px) translate(-50%, -50%);
+    }
+    /* Item 4: 270° */
+    .carousel__item:nth-child(4) {
+      transform: rotateY(270deg) translateZ(240px) translate(-50%, -50%);
+    }
+
+    /* Read‐more / Read‐less styles (same as before) */
+    .short-desc {
+      display: inline;
+    }
+    .full-desc {
+      display: none;
+    }
+    p.expanded .short-desc {
+      display: none;
+    }
+    p.expanded .full-desc {
+      display: inline;
+    }
+
+    /* On mobile (<=640px), hide the 3D carousel and show the fallback grid */
+    @media (max-width: 640px) {
+      .carousel {
+        display: none;
+      }
+      .lmz-grid-fallback {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 2rem;
+      }
+      /* Also ensure each fallback card is visible under the “collapsed” rules */
+      .lmz-grid-fallback.lmz-collapsed .lmz-proj:nth-child(n+3) {
+        display: none;
+      }
+    }
+
+    /* small screen tweaks */
+    @media (max-width: 480px) {
+      .flip-front svg {
+        width: 48px;
+        height: 48px;
+      }
+      .lmz-ov svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    @media (max-width: 640px) {
+  .carousel {
+    display: none;
+  }
+  .lmz-grid-fallback {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+  .lmz-grid-fallback.lmz-collapsed .lmz-proj:nth-child(n+3) {
+    display: none;
+  }
+}
+
+
+  </style>
+</head>
+
+<body>
+  <!-- █ Vanta “NET” Background █ -->
+  <div id="vanta-bg"></div>
+
+  <!-- █ Parallax Emojis █ -->
+  <span class="paral rellax" data-rellax-speed="-4" style="top:12%; left:8%;">✨</span>
+  <span class="paral rellax" data-rellax-speed="-2" style="top:78%; left:3%;">⚡</span>
+  <span class="paral rellax" data-rellax-speed="-3" style="top:40%; left:90%;">🚀</span>
+  <span class="paral rellax" data-rellax-speed="-5" style="top:65%; left:75%;">⭐</span>
+
+  <!-- ╔════ 1 ▸ FLIP CARDS (Feature Grid) ════════════════╗ -->
+  <section class="lmz-section" id="features">
+    <div class="lmz-container">
+      <h2 class="lmz-h2">
+        <span class="lmz-index">1.</span> What’s Included in Our 3-Month Program
+      </h2>
+      <div class="lmz-grid1">
+        <!-- Flip Card 1 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="12" rx="2" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <polygon points="11 8 15 10.5 11 13" fill="var(--violet)"/>
+                </svg>
+                <h3>Live Interactive Sessions</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Live classes taught by MAANG industry experts, with Q&A and real-time feedback.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 2 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <polyline points="10 9 7 12 10 15" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <polyline points="14 9 17 12 14 15" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                </svg>
+                <h3>Real-World Projects</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Hands-on, interview-style system-design projects to build a strong portfolio.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 3 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="7.5" r="3.5" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <path d="M4 18c0-2.5 3.5-4.5 8-4.5s8 2 8 4.5v2" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                </svg>
+                <h3>1 : 1 Mentorship</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>One-to-one doubt-clearing sessions with senior system-design mentors.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 4 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="7" width="18" height="13" rx="2" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <path d="M8 7v-2h8v2" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                </svg>
+                <h3>Job Assistance</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Mock interviews, resume reviews, and exclusive referrals to top tech firms.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 5 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="7.5" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <polyline points="12 9 12 12 14.5 13.5" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <polyline points="5 4 5 9 10 9" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                </svg>
+                <h3>Backup Classes</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Re-join any future batch if you miss topics in your current batch.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 6 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 14c-2 0-3.5-1.5-3.5-3s1.5-3 3.5-3 4.5 3 5 3-2.5 3-5 3z" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <path d="M17 14c2 0 3.5-1.5 3.5-3s-1.5-3-3.5-3-4.5 3-5 3 2.5 3 5 3z" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                </svg>
+                <h3>Lifetime Access</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Lifetime access to every lecture recording and resource for future reference.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 7 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="8" cy="9" r="2.5" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <circle cx="16" cy="9" r="2.5" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <circle cx="12" cy="16" r="2.5" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                </svg>
+                <h3>Peer Learning</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Access Slack, GitHub &amp; HackerRank peer communities for collaborative learning.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 8 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="6" width="18" height="12" rx="2" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <line x1="3" y1="10" x2="21" y2="10" stroke-width="2" stroke="var(--violet)" />
+                </svg>
+                <h3>Flexible Pay</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>EMI on credit cards &amp; instant loans on debit cards to ease your payment.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 9 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <polyline points="8 9 10 11 16 7" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <polyline points="8 15 10 17 16 13" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                </svg>
+                <h3>Practice Assignments</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Timed assignments after every session to solidify your understanding.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 10 -->
+        <div class="flip-card">
+          <div class="flip-inner">
+            <div class="flip-face flip-front lmz-card">
+              <span class="lmz-inner">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 17a7 7 0 1 1 14 0" stroke-width="2" stroke="var(--violet)" fill="none"/>
+                  <line x1="12" y1="12" x2="15" y2="15" stroke-width="2" stroke="var(--violet)" />
+                </svg>
+                <h3>Competitive Tests</h3>
+                <span class="lmz-glow"></span>
+              </span>
+            </div>
+            <div class="flip-face flip-back">
+              <p>Timed, peer-ranked system-design challenges to gauge your readiness.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔════ 2 ▸ OVERVIEW + CTA ═══════════════════════════╗ -->
+  <section class="lmz-section">
+    <div class="lmz-container">
+      <h2 class="lmz-h2">
+        <span class="lmz-index">2.</span> <span class="lmz-accent">Overview</span> of System-Design Advanced Course
+      </h2>
+      <div class="lmz-grid2">
+        <!-- 1 -->
+        <article class="lmz-ov lmz-card">
+          <span class="lmz-inner">
+            <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#52c41a"/></svg>
+            <div>
+              <h3>Course eligibility</h3>
+              <p>This course is primarily designed for working professionals and Freshers.</p>
+            </div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+        <!-- 2 -->
+        <article class="lmz-ov lmz-card">
+          <span class="lmz-inner">
+            <svg viewBox="0 0 48 48">
+              <rect x="4" y="6" width="40" height="28" rx="4" fill="#ff4d4f"/>
+              <polygon points="22 18 30 22 22 26" fill="#fff"/>
+            </svg>
+            <div>
+              <h3>1:1 Mentorship</h3>
+              <p>Personalized programs with Live classes from industry experts and one-to-one doubt clearing sessions.</p>
+            </div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+        <!-- 3 -->
+        <article class="lmz-ov lmz-card">
+          <span class="lmz-inner">
+            <svg viewBox="0 0 48 48">
+              <rect x="4" y="4" width="16" height="16" fill="#1890ff"/>
+              <rect x="28" y="4" width="16" height="16" fill="#ffc53d"/>
+              <rect x="4" y="28" width="16" height="16" fill="#ff6f91"/>
+              <rect x="28" y="28" width="16" height="16" fill="#73d13d"/>
+            </svg>
+            <div>
+              <h3>Flexible Course</h3>
+              <p>Attend multiple batches with multiple trainers along with lifetime access to the course content.</p>
+            </div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+        <!-- 4 -->
+        <article class="lmz-ov lmz-card">
+          <span class="lmz-inner">
+            <svg viewBox="0 0 48 48">
+              <rect x="14" y="6" width="20" height="8" fill="#fa8c16"/>
+              <circle cx="12" cy="22" r="4" fill="#95de64"/>
+              <circle cx="24" cy="22" r="4" fill="#13c2c2"/>
+              <circle cx="36" cy="22" r="4" fill="#ff7875"/>
+              <rect x="4" y="32" width="40" height="8" fill="#ccc"/>
+            </svg>
+            <div>
+              <h3>Interview Prep</h3>
+              <p>Get ready for system-design rounds in 3 months of structured preparation.</p>
+            </div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+      </div>
+
+      <div class="lmz-cta">
+        <span class="lmz-inner">
+          <p>Land in your dream job with real work experience</p>
+          <button class="lmz-btn">Talk With Counselor →</button>
+          <span class="lmz-glow"></span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔════ 3 ▸ FAQ DETAILS ══════════════════════════════╗ -->
+  <section class="lmz-section" id="faq">
+    <div class="lmz-container">
+      <h2 class="lmz-h2">
+        <span class="lmz-index">3.</span> About Online <span class="lmz-accent">System Design Course</span>
+      </h2>
+
+      <!-- Q1 -->
+      <details class="lmz-faq">
+        <summary>
+          <span class="lmz-inner">
+            Who should take this System Design Course?
+            <svg class="lmz-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            <span class="lmz-glow"></span>
+          </span>
+        </summary>
+        <div class="lmz-body">
+          <p>Anyone with an interest in systems architecture can take this system-design course. System design is a fundamental field within software industries offering many career opportunities; this course is beneficial for:</p>
+          <ol>
+            <li><b>Students and recent graduates:</b> Students and recent graduates can greatly benefit by investing in this system-design course to enter the job market.</li>
+            <li><b>IT professionals:</b> IT professionals can take this course to gain insight into system architecture and transition their careers.</li>
+            <li><b>Software Engineers:</b> Software engineers can leverage this course by integrating their coding skills with system-design knowledge to step into a senior position.</li>
+            <li><b>Product Managers:</b> Product managers who work closely with an architect can take this course to overcome technical challenges and make informed decisions.</li>
+            <li><b>Technical Leads:</b> Tech leads who guide the development teams can take this course to align implementation with design vision by following system-design best practices.</li>
+            <li><b>Aspiring Architects:</b> Individuals with a passion for stepping into an advanced role can learn system-design principles to design complex systems.</li>
+            <li><b>UI/UX Designers:</b> UI/UX designers are responsible for designing user interfaces. This course will help them to understand system-design constraints for designing interfaces that are technically scalable and feasible.</li>
+          </ol>
+        </div>
+      </details>
+
+      <!-- Q2 -->
+      <details class="lmz-faq">
+        <summary>
+          <span class="lmz-inner">
+            What are the prerequisites for this System Design Course?
+            <svg class="lmz-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            <span class="lmz-glow"></span>
+          </span>
+        </summary>
+        <div class="lmz-body">
+          <ul>
+            <li>A basic understanding of programming languages can help you to understand how code interacts with system components.</li>
+            <li>Familiarity with basic OOPS concepts can be valuable for understanding the fundamentals of system design.</li>
+            <li>This course is primarily designed for Freshers and working professionals, and with the willingness to learn and improve your skills, you will go a long way.</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- Q3 -->
+      <details class="lmz-faq">
+        <summary>
+          <span class="lmz-inner">
+            What are the job opportunities available after completing 3-month System Design Course?
+            <svg class="lmz-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            <span class="lmz-glow"></span>
+          </span>
+        </summary>
+        <div class="lmz-body">
+          <p>With LogicMojo’s system-design course, you can master system-design skills and gain hands-on experience through real-world projects. Here are the job roles you can pursue after completing this course:</p>
+          <table class="lmz-table">
+            <thead>
+              <tr><th>Job Opportunities</th><th>Role Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Software Intern</td><td>Work under senior developers to gain practical experience and insight into system design to advance your career as a software engineer.</td></tr>
+              <tr><td>Software Developer / Engineer</td><td>Develop robust and scalable architectures with system-design principles to meet business goals.</td></tr>
+              <tr><td>Senior Software Developer / Engineer</td><td>Lead teams, guide juniors, and build efficient, scalable software for complex applications.</td></tr>
+              <tr><td>Frontend Developer</td><td>Create functional and visually appealing interfaces for large-scale architectures.</td></tr>
+              <tr><td>Backend Developer</td><td>Build optimized, scalable, and efficient server-side applications.</td></tr>
+              <tr><td>Technical Lead</td><td>Coordinate system-design goals with business objectives and make strategic technical decisions.</td></tr>
+              <tr><td>Senior Lead</td><td>Manage teams and projects, implement design strategies, and own architectural decisions.</td></tr>
+              <tr><td>Product Manager</td><td>Translate business goals into technical roadmaps and make informed decisions.</td></tr>
+              <tr><td>Architect</td><td>Design and ensure that architectural plans are scalable, reliable, and maintainable.</td></tr>
+              <tr><td>Solution Architect</td><td>Design and manage scalable solutions aligned with business requirements.</td></tr>
+              <tr><td>Cloud Architect</td><td>Build and manage cloud-based infrastructure grounded in solid design principles.</td></tr>
+              <tr><td>Infrastructure Engineer</td><td>Create scalable and robust components of IT infrastructure.</td></tr>
+              <tr><td>DevOps Engineer</td><td>Automate and optimize system development and deployment.</td></tr>
+              <tr><td>Member of Technical Staff (MTS)</td><td>Collaborate with engineers and implement advanced technical solutions.</td></tr>
+              <tr><td>UI/UX Designer</td><td>Create visually appealing user interfaces within the constraints of scalable architecture.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- Q4 -->
+      <details class="lmz-faq">
+        <summary>
+          <span class="lmz-inner">
+            What important skills will you learn with this System Design Course?
+            <svg class="lmz-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            <span class="lmz-glow"></span>
+          </span>
+        </summary>
+        <div class="lmz-body">
+          <p>The LogicMojo System-Design course covers fundamentals and advanced architectural skills to help you master system design. Below is a brief overview of the skills you will learn:</p>
+          <table class="lmz-table">
+            <thead>
+              <tr><th>Skills</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Architecture Design</td><td>Understand architecture principles to design scalable systems.</td></tr>
+              <tr><td>Distributed Systems</td><td>Run systems on multiple machines and handle high-volume applications.</td></tr>
+              <tr><td>High-Level Design (HLD)</td><td>Create high-level designs defining system components and interactions.</td></tr>
+              <tr><td>Low-Level Design (LLD)</td><td>Design detailed classes, methods, and module interactions.</td></tr>
+              <tr><td>Scalability</td><td>Create systems that handle large load without compromising performance.</td></tr>
+              <tr><td>Database Management</td><td>Design and optimize relational and NoSQL databases.</td></tr>
+              <tr><td>Performance Optimization</td><td>Improve throughput and latency under heavy load.</td></tr>
+              <tr><td>Cloud Computing</td><td>Design cost-efficient, resilient cloud solutions.</td></tr>
+              <tr><td>API Design</td><td>Implement RESTful and GraphQL APIs following best practices.</td></tr>
+              <tr><td>Product Development</td><td>Align architectural decisions with business goals.</td></tr>
+              <tr><td>SaaS / IaaS</td><td>Design and deploy applications using SaaS and IaaS models.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- Q5 -->
+      <details class="lmz-faq">
+        <summary>
+          <span class="lmz-inner">
+            What is the Duration of this System Design Course?
+            <svg class="lmz-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            <span class="lmz-glow"></span>
+          </span>
+        </summary>
+        <div class="lmz-body">
+          <p>LogicMojo’s system-design course is curated by leading faculties and industry leaders to provide practical learning with live interactive classes and detailed design instruction. The program lasts for <b>3 months</b> with <b>3 hours of live weekend classes</b> and lifetime access to recordings.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ╔════ 4 ▸ WHAT YOU’LL LEARN (Vertical Timeline) ═══════════╗ -->
+  <section class="lmz-section timeline-section" id="learn">
+    <div class="lmz-container">
+      <h2 class="lmz-h2">
+        <span class="lmz-index">4.</span> What <span class="lmz-accent">you’ll learn</span> in the Course?
+      </h2>
+    </div>
+    <div class="timeline-container">
+      <!-- Timeline Item 1 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>System Design Basics</h3>
+          <p>Approach to system-design problems: requirements, APIs, data models, components, interfaces, plus CAP, Consistency, Availability, Latency.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 2 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Distributed Cache &amp; Database Sharding</h3>
+          <p>Caching strategies, eviction policies, consistent hashing, Zookeeper, pooling &amp; streaming, Pub/Sub patterns, MapReduce fundamentals.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 3 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Distributed Systems Core</h3>
+          <p>Multiprocessor architecture, load balancers, distributed caches, CDNs, push/pull mechanisms, CAP theorem, fault tolerance.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 4 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Microservice Architecture</h3>
+          <p>Monolithic vs. microservices, fault tolerance, service discovery, distributed tracing, monitoring, and observability tools.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 5 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Cloud Deployment Strategies</h3>
+          <p>AWS EC2 setup, Docker containerization, cloud-native best practices, Kubernetes Pods, CI/CD pipelines, container orchestration.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 6 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Microservice HLD &amp; LLD with Kafka</h3>
+          <p>Design microservices using Kafka, message queues, API Gateways, service meshes, and distributed event-driven patterns.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 7 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Design Patterns Deep Dive</h3>
+          <p>SOLID principles, Singleton, Factory &amp; Abstract Factory, Builder, Observer, Strategy, and when/how to apply them in large systems.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 8 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Scalable-System Case Studies</h3>
+          <p>Real-world designs: TinyURL, Uber backend, Facebook News Feed, Google Maps, Swiggy’s geo-based architecture, Gmail &amp; WhatsApp scale.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 9 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>SQL vs. NoSQL Databases</h3>
+          <p>Relational vs. key/value vs. document vs. graph: Cassandra, MongoDB, Redis — choosing the right storage for scale &amp; consistency.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 10 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>High-Level &amp; Low-Level Design</h3>
+          <p>Component diagrams, microservice interactions, data flow, detailed class/method design, and breaking monoliths into services.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 11 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Kubernetes &amp; Docker Orchestration</h3>
+          <p>Container scaling (vertical &amp; horizontal), Helm charts, AWS EKS/GKE, WebSockets, long-polling, and rolling updates in production.</p>
+        </div>
+      </div>
+      <!-- Timeline Item 12 -->
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Real System-Design Interview Prep</h3>
+          <p>Hands-on mock questions, trade-off analysis, performance bottlenecks, capacity planning, and whiteboard-style problem solving.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔════ 5 ▸ PROJECTS GRID (3D Carousel + Fallback Grid) ═════╤╗ -->
+  <section class="lmz-section" id="projects">
+    <div class="lmz-container">
+      <h2 class="lmz-h2">
+        <span class="lmz-index">5.</span> What kind of <span class="lmz-accent">projects</span> are included as part of this System-Design course?
+      </h2>
+      <p class="lmz-sup">
+        Learn real-time system design from industry experts, and use your expertise in the course by designing systems from scratch with HLD &amp; LLD.
+        Enhance your resume with strong expertise in the design &amp; implementation of real-time systems.
+      </p>
+      <ul class="lmz-ticks">
+        <li>Engage in collaborative real-time design discussions with mentors</li>
+        <li>Learn faster through expert guidance</li>
+        <li>Receive detailed feedback on every submission</li>
+      </ul>
+
+      <!-- ─── 3D CAROUSEL (visible on desktop ≥ 641px) ─── -->
+      <div class="carousel">
+        <!-- Card 1 -->
+        <div class="carousel__item">
+          <article class="lmz-proj lmz-card">
+            <span class="lmz-inner">
+              <h3>BookMyShow Service Design</h3>
+              <p>
+                <span class="short-desc">
+                  This beginner-friendly scalable real-time system covers ticket booking with synchronization, HLD/LLD, user interaction, and secure payment flow.
+                </span>
+                <span class="full-desc">
+                  You will build end-to-end architecture capable of handling millions of bookings per day.
+                </span>
+                <span class="lmz-exp">Read more</span>
+              </p>
+              <div class="lmz-ico">🎟️</div>
+              <span class="lmz-glow"></span>
+            </span>
+          </article>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="carousel__item">
+          <article class="lmz-proj lmz-card">
+            <span class="lmz-inner">
+              <h3>Design Tiny URL</h3>
+              <p>
+                <span class="short-desc">
+                  Create a highly available URL-shortening service that supports billions of requests using hashing, database sharding, caching, and a resilient API layer.
+                </span>
+                <span class="full-desc">
+                  Design for consistency, low latency, and eventual analytics processing.
+                </span>
+                <span class="lmz-exp">Read more</span>
+              </p>
+              <div class="lmz-ico">🔗</div>
+              <span class="lmz-glow"></span>
+            </span>
+          </article>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="carousel__item">
+          <article class="lmz-proj lmz-card">
+            <span class="lmz-inner">
+              <h3>Ride-Sharing Service (Uber/Ola)</h3>
+              <p>
+                <span class="short-desc">
+                  Design a global ride-sharing backend that offers real-time geo-matching, surge pricing, live tracking, and secure in-app communication across millions of concurrent trips.
+                </span>
+                <span class="full-desc"></span> 
+                <!-- no extra text for full-desc in this example -->
+              </p>
+              <div class="lmz-ico">🚗</div>
+              <span class="lmz-glow"></span>
+            </span>
+          </article>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="carousel__item">
+          <article class="lmz-proj lmz-card">
+            <span class="lmz-inner">
+              <h3>Twitter / Facebook News-Feed + Search</h3>
+              <p>
+                <span class="short-desc">
+                  Architect a social-network backend that powers personalized timelines, hashtag search, and low-latency fan-out—handling billions of daily posts with eventual consistency.
+                </span>
+                <span class="full-desc"></span>
+              </p>
+              <div class="lmz-ico">📰</div>
+              <span class="lmz-glow"></span>
+            </span>
+          </article>
+        </div>
+      </div>
+      <div class="carousel">
+  <div class="carousel__item"> … </div>
+  <div class="carousel__item"> … </div>
+  <div class="carousel__item"> … </div>
+  <div class="carousel__item"> … </div>
+</div>
+
+
+      <!-- ─── END 3D CAROUSEL ─────────────────────────── -->
+
+      <!-- ─── FALLBACK GRID (visible on mobile ≤ 640px) ─── -->
+      <div class="lmz-grid-fallback lmz-collapsed">
+        <!-- Card 1 fallback -->
+        <article class="lmz-proj lmz-card">
+          <span class="lmz-inner">
+            <h3>BookMyShow Service Design</h3>
+            <p>
+              <span class="short-desc">
+                This beginner-friendly scalable real-time system covers ticket booking with synchronization, HLD/LLD, user interaction, and secure payment flow.
+              </span>
+              <span class="full-desc">
+                You will build end-to-end architecture capable of handling millions of bookings per day.
+              </span>
+              <span class="lmz-exp">Read more</span>
+            </p>
+            <div class="lmz-ico">🎟️</div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+
+        <!-- Card 2 fallback -->
+        <article class="lmz-proj lmz-card">
+          <span class="lmz-inner">
+            <h3>Design Tiny URL</h3>
+            <p>
+              <span class="short-desc">
+                Create a highly available URL-shortening service that supports billions of requests using hashing, database sharding, caching, and a resilient API layer.
+              </span>
+              <span class="full-desc">
+                Design for consistency, low latency, and eventual analytics processing.
+              </span>
+              <span class="lmz-exp">Read more</span>
+            </p>
+            <div class="lmz-ico">🔗</div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+
+        <!-- Card 3 fallback -->
+        <article class="lmz-proj lmz-card">
+          <span class="lmz-inner">
+            <h3>Ride-Sharing Service (Uber/Ola)</h3>
+            <p>
+              <span class="short-desc">
+                Design a global ride-sharing backend that offers real-time geo-matching, surge pricing, live tracking, and secure in-app communication across millions of concurrent trips.
+              </span>
+              <span class="full-desc"></span>
+            </p>
+            <div class="lmz-ico">🚗</div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+
+        <!-- Card 4 fallback -->
+        <article class="lmz-proj lmz-card">
+          <span class="lmz-inner">
+            <h3>Twitter / Facebook News-Feed + Search</h3>
+            <p>
+              <span class="short-desc">
+                Architect a social-network backend that powers personalized timelines, hashtag search, and low-latency fan-out—handling billions of daily posts with eventual consistency.
+              </span>
+              <span class="full-desc"></span>
+            </p>
+            <div class="lmz-ico">📰</div>
+            <span class="lmz-glow"></span>
+          </span>
+        </article>
+      </div>
+      <!-- ─── END FALLBACK GRID ─────────────────────── -->
+
+      <button id="lmz-more" class="lmz-btn">Show more</button>
+    </div>
+  </section>
+
+  <!-- ============ LIBRARIES ============ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.12.1/rellax.min.js" defer></script>
+
+  <!-- ============ PAGE JS ============ -->
+  <script defer>
+    window.addEventListener('load', () => {
+      /* Vanta NET background */
+      VANTA.NET({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        color: 0x6949ff,
+        backgroundColor:
+          getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() ||
+          0xf9fafe
+      });
+
+      /* Parallax emojis */
+      new Rellax('.paral');
+
+      /* 3-D tilt for any card that isn’t inside a flip-card */
+      document.querySelectorAll('.lmz-card').forEach(card => {
+        // Skip flip-card faces
+        if (card.closest('.flip-card')) return;
+        const inner = card.querySelector('.lmz-inner');
+        const glow = card.querySelector('.lmz-glow');
+        if (!inner) return;
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - .5;
+          const y = (e.clientY - r.top) / r.height - .5;
+          inner.style.transform = `rotateX(${y * 15}deg) rotateY(${-x * 15}deg) translateZ(8px)`;
+          if (glow) {
+            glow.style.background = `radial-gradient(700px circle at ${x * 100 + 50}% ${y * 100 + 50}%, rgba(255, 255, 255, .48), transparent 65%)`;
+          }
+        });
+        card.addEventListener('mouseleave', () => {
+          inner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+      });
+
+      /* Intersection Observer for Timeline Animation */
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15
+      };
+      const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, observerOptions);
+      timelineItems.forEach(item => timelineObserver.observe(item));
+
+      /* Show-more / Show-less toggle for Section 5 Projects */
+      const projGridFallback = document.querySelector('.lmz-grid-fallback');
+      document.getElementById('lmz-more').addEventListener('click', e => {
+        // If mobile (<640px), toggle fallback grid; otherwise no effect (carousel always shows all 4)
+        if (window.innerWidth <= 640) {
+          const collapsed = projGridFallback.classList.toggle('lmz-collapsed');
+          e.target.textContent = collapsed ? 'Show more' : 'Show less';
+        }
+      });
+
+      /* Read-more / Read-less toggles inside each project paragraph */
+      document.querySelectorAll('.lmz-exp').forEach(link => {
+        link.addEventListener('click', e => {
+          e.stopPropagation();
+          const p = link.closest('p');
+          p.classList.toggle('expanded');
+          if (p.classList.contains('expanded')) {
+            link.textContent = 'Read less';
+          } else {
+            link.textContent = 'Read more';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

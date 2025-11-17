@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>cassie.codes — Inspired Clone</title>
+  <meta name="description" content="Lightweight, accessible, single-file clone inspired by cassie.codes layout." />
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#0f172a; --muted:#475569; --card:#f8fafc;
+      --accent:#7c3aed; --link:#2563eb; --border:#e2e8f0;
+      --shadow:0 10px 30px rgba(2,6,23,.08);
+    }
+    [data-theme="dark"]{
+      --bg:#0b1020; --fg:#e5e7eb; --muted:#cbd5e1; --card:#111827;
+      --accent:#a78bfa; --link:#93c5fd; --border:#1f2937;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    html,body{height:100%}
+    body{margin:0; font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,"Helvetica Neue",Arial;
+      background:var(--bg); color:var(--fg);}
+    .container{max-width:1100px; margin-inline:auto; padding:24px;}
+    .skip-link{position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden;}
+    .skip-link:focus{left:16px; top:16px; width:auto; height:auto; padding:8px 12px; background:var(--accent); color:#fff; border-radius:8px;}
+
+    header{position:sticky; top:0; z-index:10; backdrop-filter:saturate(180%) blur(8px);
+      background:color-mix(in oklab, var(--bg) 85%, transparent); border-bottom:1px solid var(--border);}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+    .brand{font-weight:800; letter-spacing:.3px; text-decoration:none; color:var(--fg)}
+    .brand .dot{color:var(--accent)}
+    .menu{display:flex; gap:14px; align-items:center;}
+    .menu a{color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:10px;}
+    .menu a:hover{background:var(--card); color:var(--fg)}
+    .toggle{border:1px solid var(--border); background:var(--card); padding:8px 12px; border-radius:999px; cursor:pointer;}
+
+    .hero{display:grid; grid-template-columns:1.2fr .8fr; gap:32px; align-items:center; padding-block:48px;}
+    .hero h1{font-size:clamp(32px, 4vw, 54px); line-height:1.1; margin:0 0 12px;}
+    .hero p{font-size:1.1rem; color:var(--muted); margin:0 0 8px;}
+    .pill{display:inline-block; background:color-mix(in oklab, var(--accent), var(--bg) 70%); color:var(--fg); padding:6px 10px; border-radius:999px; font-size:.85rem;}
+    .hero-card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; box-shadow:var(--shadow)}
+    .hero-card code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.95rem}
+
+    section{padding-block:28px;}
+    .section-title{font-size:1.6rem; margin:0 0 14px;}
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:16px;}
+    .card{grid-column:span 6; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
+    .card h3{margin:.2rem 0 .3rem; font-size:1.1rem}
+    .card p{margin:.2rem 0 .6rem; color:var(--muted)}
+    .tag{display:inline-block; font-size:.75rem; padding:4px 8px; border:1px dashed var(--border); border-radius:999px;}
+    .kicker{font-size:.9rem; color:var(--muted)}
+    .full{grid-column:1/-1}
+    .span-4{grid-column:span 4}
+    .span-6{grid-column:span 6}
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .card,.span-4,.span-6{grid-column:1/-1}
+    }
+    footer{border-top:1px solid var(--border); margin-top:24px; padding-block:24px; color:var(--muted)}
+    .links{display:flex; gap:14px; flex-wrap:wrap}
+    .links a{color:var(--link); text-decoration:none}
+    .links a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <div class="container nav" role="navigation" aria-label="primary">
+      <a class="brand" href="#">cassie<span class="dot">.</span>codes</a>
+      <nav class="menu" aria-label="site">
+        <a href="#writing">writing</a>
+        <a href="#speaking">speaking</a>
+        <a href="#workshop">workshop</a>
+        <a href="#play">playing</a>
+        <button class="toggle" id="themeToggle" aria-label="Toggle dark mode">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="hero" aria-labelledby="intro">
+      <div>
+        <span class="pill" id="intro">Hi, I'm cassie</span>
+        <h1>I like making <a href="#play">fun</a>, interactive things with code.<br/>I also talk & write about those things.</h1>
+        <p class="kicker">Learning clone — replace text, links & cards with your content.</p>
+      </div>
+      <aside class="hero-card" aria-label="Code snippet">
+        <p class="kicker">Tiny animation idea (placeholder)</p>
+<pre><code>// pseudo animation
+const dots = document.querySelectorAll('.dot');
+let i = 0;
+setInterval(() => {
+  dots[i % dots.length].style.transform = `scale(${1 + Math.random()*0.3})`;
+  i++;
+}, 600);
+</code></pre>
+      </aside>
+    </section>
+
+    <section id="writing" aria-labelledby="writing-title">
+      <h2 class="section-title" id="writing-title">Writing.</h2>
+      <div class="grid">
+        <article class="card span-6">
+          <p class="tag">SVG • CSS</p>
+          <h3>The many ways to change an SVG fill on hover</h3>
+          <p>How to add colored hover effects to non-inline SVGs with CSS & filters.</p>
+          <a href="#" aria-label="Read post">Read post →</a>
+        </article>
+        <article class="card span-6">
+          <p class="tag">SVG • Motion</p>
+          <h3>Motion Paths – Past, Present and Future</h3>
+          <p>Explore different ways to animate along a path for delightful motion.</p>
+          <a href="#" aria-label="Read post">Read post →</a>
+        </article>
+        <article class="card span-6">
+          <p class="tag">Case study</p>
+          <h3>Creating my logo animation</h3>
+          <p>Using a timeline and CSS clip paths to make a playful animated logo.</p>
+          <a href="#" aria-label="Read post">Read post →</a>
+        </article>
+        <article class="card span-6">
+          <p class="tag">Blog</p>
+          <h3>Visit my blog…</h3>
+          <p>Thoughts on web animation, SVG, and creative coding.</p>
+          <a href="#" aria-label="Visit my blog">Browse blog →</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="speaking" aria-labelledby="speaking-title">
+      <h2 class="section-title" id="speaking-title">Speaking.</h2>
+      <div class="grid">
+        <article class="card full">
+          <p>First conference invite felt scary — said yes anyway. Now I speak at events worldwide (still scary!).</p>
+          <a href="#">Check out videos & upcoming talks →</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="workshop" aria-labelledby="workshop-title">
+      <h2 class="section-title" id="workshop-title">Workshops & Talks</h2>
+      <div class="grid">
+        <article class="card span-4">
+          <p class="tag">workshop</p>
+          <h3>Getting started with SVG animation</h3>
+          <p>Everything you need to begin and master SVG animation on the web.</p>
+          <a href="#">See details →</a>
+        </article>
+        <article class="card span-4">
+          <p class="tag">talk</p>
+          <h3>Painting with SVG</h3>
+          <p>Making digital graphics feel tactile, messy, and human.</p>
+          <a href="#">See details →</a>
+        </article>
+        <article class="card span-4">
+          <p class="tag">Interactive web animation with SVG</h3>
+          <p>Play, APIs, demos, and when to reach for a library.</p>
+          <a href="#">See details →</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 class="section-title" id="contact-title">Hey there!</h2>
+      <p>Mail: <a href="mailto:hi@example.com">hi@example.com</a></p>
+      <div class="links">
+        <a href="#" aria-label="Twitter">Twitter</a>
+        <a href="#" aria-label="LinkedIn">LinkedIn</a>
+        <a href="#" aria-label="CodePen">CodePen</a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <small>© <span id="year"></span> Your Name — Inspired by cassie.codes</small>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('theme');
+    if(saved){ root.setAttribute('data-theme', saved); }
+    if(!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+      root.setAttribute('data-theme','dark');
+    }
+    toggle.addEventListener('click', ()=>{
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
